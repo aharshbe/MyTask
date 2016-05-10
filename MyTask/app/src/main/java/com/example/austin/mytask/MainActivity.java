@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -88,6 +89,13 @@ public class MainActivity extends AppCompatActivity {
                     editObject.setText("");
                 }
 
+            }
+        });
+        //Creates a onItemClick for the listView to display a toat that prompts the user to long-Press delete and object if need be
+        objectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Long press to delete :(", Toast.LENGTH_SHORT).show();
             }
         });
     }
