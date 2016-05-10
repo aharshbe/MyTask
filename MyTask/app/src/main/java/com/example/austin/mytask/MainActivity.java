@@ -10,14 +10,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Creating starting points for referencing TextView's, EditText and the ListView
     TextView title;
     EditText editObject;
+    ListView objectList;
+
+
+    //Creating starting points for LinkedList and ArrayAdapter
+    LinkedList<String> toDoObjects;
+    ArrayAdapter<String>listViewAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +36,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Finishes instantiating a new instance of the textView, editText, and listView's by referencing them to the XML id's.
         title = (TextView) findViewById(R.id.title);
         editObject = (EditText) findViewById(R.id.editObjectEntry);
+        objectList = (ListView) findViewById(R.id.listView);
+
+        //Finishes instantiating the instances of linkedList and ArrayAdapter and then sets the arrayAdapter to the listView and the LinkedList
+        toDoObjects = new LinkedList<>();
+        listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, toDoObjects);
+        objectList.setAdapter(listViewAdapter);
 
 
 
