@@ -1,5 +1,6 @@
 package com.example.austin.mytask;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -62,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,20 +70,31 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "List object added", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
 
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("key", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
                 //Creates new string object that takes the text from the edit text field and turns it into a string to be used
                 String addingText = editObject.getText().toString();
 
                 //Creates a boolean, if the edit text lenght is less than 0, that sharedPreferences is initiated to send over the name of the Object List to the next activity via key/value pair
                 if(editObject.length() > 0){
-                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("key", MODE_PRIVATE);
-                    sharedPreferences.getString("object", "");
-                    String previousList = String.valueOf(sharedPreferences.getString("object", ""));
-                    title.setText(previousList);
                     //Adds new objects to the array list
                     toDoObjects.add(addingText);
                     //Notifies the array adapter that the data set had changed, updating the listView in the process
                     listViewAdapter.notifyDataSetChanged();
+                    //Creates a sharedPreferences key/value pair
+                    editor.putString("objectname", addingText);
+                    //Commits changes to the sp
+                    editor.commit();
+                    //Instantiates a new arrayList to store the information in the to-doList
+                    ArrayList<String> arrayOfArray = new ArrayList<>();
+                    //Refernces the Object class (arrayClass object) which also adds anoher array/arrayCeption
+                    arrayClass.ToDoListsArray.add(addingText);
+                    arrayClass.ToDoObjectsArray.add(arrayOfArray);
+
+                    listViewAdapter.notifyDataSetChanged();
+
                     //Clears out the edit text so that the users information doesn't persist and become annoying
                     editObject.setText("");
                 }
@@ -96,6 +106,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "Long press to delete :(", Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
+                myIntent.putExtra("objectName", position);
+                String objectName = toDoObjects.get(position);
+                myIntent.putExtra("objectName", objectName);
+                startActivity(myIntent);
             }
         });
     }
