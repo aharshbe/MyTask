@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -45,6 +46,19 @@ public class MainActivity extends AppCompatActivity {
         toDoObjects = new LinkedList<>();
         listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, toDoObjects);
         objectList.setAdapter(listViewAdapter);
+
+
+        objectList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //Removed a list item at it's position as a parameter
+                toDoObjects.remove(position);
+                //Notifying the adapter that the list did in fact change via removing from press @ position
+                listViewAdapter.notifyDataSetChanged();
+
+                return true;
+            }
+        });
 
 
 
